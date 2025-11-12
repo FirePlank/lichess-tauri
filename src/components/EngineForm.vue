@@ -54,11 +54,24 @@ if (editEngineId) {
 }
 
 function selectEngineFile() {
-  open({}).then((data) => {
-    binaryLocation.value = data
-
-    errors.value = {}
+  open({
+    multiple: false,
+    directory: false,
+    filters: [
+      {
+        name: 'Executable Files',
+        extensions: ['exe', '', 'bin', 'run'],
+      },
+    ],
   })
+    .then((data) => {
+      binaryLocation.value = data
+
+      errors.value = {}
+    })
+    .catch((error) => {
+      console.error('Failed to open file dialog:', error)
+    })
 }
 
 function submit() {
